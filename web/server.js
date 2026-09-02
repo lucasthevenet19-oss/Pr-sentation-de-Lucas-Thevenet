@@ -9,8 +9,8 @@ var MIME = {
 };
 
 http.createServer(function(req, res) {
-  var filePath = '.' + req.url.split('?')[0];
-  if (filePath === './') filePath = './login.html';
+  var requestPath = decodeURIComponent(req.url.split('?')[0]);
+  var filePath = path.join(__dirname, requestPath === '/' ? 'login.html' : requestPath);
   
   fs.readFile(filePath, function(err, data) {
     if (err) { res.writeHead(404); res.end('Not found'); return; }
